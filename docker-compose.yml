@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  invmicroservicio1:
+    container_name: invmicroservicio1
+    image: valentinaayala/invmicroservicio
+    ports:
+      - 6015:9000
+    networks:
+      - invmicroservicionet
+    environment:
+      HOST: invmicroservicio1
+  invmicroservicio2:
+    container_name: invmicroservicio2
+    image: valentinaayala/invmicroservicio
+    ports:
+      - 6016:9000
+    networks:
+      - invmicroservicionet
+    environment:
+      HOST: invmicroservicio2
+  load-balancer:
+    container_name: nginxloadbalancer
+    image: valentinaayala/nginxmicroservicio
+    build:
+      context: ./load-balancer
+    ports:
+      - 6017:80
+    networks:
+      - invmicroservicionet
+    environment:
+      HOST: nginxloadbalancer
+    depends_on:
+      - invmicroservicio1
+      - invmicroservicio2
+    restart: always
+networks:
+  invmicroservicionet:

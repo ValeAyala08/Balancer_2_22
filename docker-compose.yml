@@ -24,7 +24,7 @@ services:
     build:
       context: ./load-balancer
     ports:
-      - 6049:80
+      - 6041:80
     networks:
       - invmicroservicionet
     environment:
